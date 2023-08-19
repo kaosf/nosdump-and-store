@@ -26,8 +26,6 @@ kaosf/nosdump-and-store:0.1.0
 
 ## TODO
 
-- Add index
-- Build Docker image
 - Timeout for `nosdump` command
 - Research `nosdump` command behavior much more
 - Validation or verification feature in other gems
