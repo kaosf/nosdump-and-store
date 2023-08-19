@@ -3,12 +3,17 @@
 [Docker Hub](https://hub.docker.com/r/kaosf/nosdump-and-store)
 
 ```sql
-CREATE DATABASE "nosdump_and_store";
-CREATE TABLE IF NOT EXISTS "nostr_events" (
-  "id" text primary key,
-  "created_at" integer not null,
-  "body" json not null
+CREATE DATABASE nosdump_and_store;
+
+\c nosdump_and_store;
+
+CREATE TABLE nostr_events (
+    id character varying NOT NULL,
+    created_at integer NOT NULL,
+    body json NOT NULL
 );
+ALTER TABLE ONLY nostr_events ADD CONSTRAINT nostr_events_pkey PRIMARY KEY (id);
+CREATE INDEX index_nostr_events_on_created_at ON nostr_events USING btree (created_at);
 ```
 
 ```sh
