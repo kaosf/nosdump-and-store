@@ -1,5 +1,7 @@
 # nosdump and store
 
+[Docker Hub](https://hub.docker.com/r/kaosf/nosdump-and-store)
+
 ```sql
 CREATE DATABASE "nosdump_and_store";
 CREATE TABLE IF NOT EXISTS "nostr_events" (
