@@ -52,6 +52,7 @@ psql postgres://postgres:@127.0.0.1:5432/nosdump_and_store_development
 ```sql
 CREATE TABLE IF NOT EXISTS "nostr_events" (
   "id" text primary key,
+  "kind" integer not null,
   "created_at" integer not null,
   "body" json not null
 );
