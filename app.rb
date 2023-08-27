@@ -17,6 +17,7 @@ require "activerecord-import"
 
 class NostrEvent < ActiveRecord::Base
   validates :id, presence: true, uniqueness: true
+  validates :kind, presence: true
   validates :created_at, presence: true
   validates :body, presence: true
 end
@@ -71,8 +72,9 @@ def build_nostr_event line
   raise StandardError, "Invalid event" unless validate_event body
 
   id = body["id"]
+  kind = body["kind"]
   created_at = body["created_at"]
-  NostrEvent.new(id:, created_at:, body:)
+  NostrEvent.new(id:, kind:, created_at:, body:)
 end
 
 def fetch_events since

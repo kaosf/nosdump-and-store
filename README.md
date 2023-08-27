@@ -9,10 +9,12 @@ CREATE DATABASE nosdump_and_store;
 
 CREATE TABLE nostr_events (
     id character varying NOT NULL,
+    kind integer NOT NULL,
     created_at integer NOT NULL,
     body json NOT NULL
 );
 ALTER TABLE ONLY nostr_events ADD CONSTRAINT nostr_events_pkey PRIMARY KEY (id);
+CREATE INDEX index_nostr_events_on_kind ON nostr_events USING btree (kind);
 CREATE INDEX index_nostr_events_on_created_at ON nostr_events USING btree (created_at);
 ```
 
