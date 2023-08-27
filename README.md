@@ -62,6 +62,7 @@ bundle
 
 DATABASE_URL=postgres://postgres:@127.0.0.1:5432/nosdump_and_store_development \
 IS_DEVELOPMENT=1 \
+SINCE_MARGIN_SECONDS=3600 \
 SLEEP_SECONDS=30 \
 bundle exec ruby app.rb
 ```
