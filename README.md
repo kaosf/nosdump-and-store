@@ -23,7 +23,7 @@ docker run -d \
 -e NOSDUMP_AUTHORS=npub1abc...001,npub1def...002 \
 -e NOSDUMP_RELAYS=wss://nostr.example.com,wss://another-relay.example.com \
 -e DATABASE_URL=postgres://user:pass@host:5432/nosdump_and_store \
-kaosf/nosdump-and-store:0.1.0
+kaosf/nosdump-and-store:0.3.0
 ```
 
 ## TODO
