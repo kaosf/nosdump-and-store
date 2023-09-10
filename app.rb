@@ -102,6 +102,9 @@ loop do
   begin
     result = NostrEvent.import nostr_events, validate: true, validate_uniqueness: true
     LOGGER.info "Done store; num_inserts: #{result.num_inserts}"
+  rescue ActiveRecord::Error => e
+    LOGGER.error e
+    exit 1
   rescue => e
     LOGGER.error e
   end
