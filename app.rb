@@ -95,6 +95,8 @@ SLEEP_SECONDS = ENV.fetch("SLEEP_SECONDS") { "3600" }.to_i
 
 loop do
   LOGGER.info "Start"
+  LOGGER.info "Establish DB connection"
+  ActiveRecord::Base.establish_connection ENV["DATABASE_URL"]
   since = "#{(Time.now - SINCE_MARGIN_SECONDS).to_i}"
   LOGGER.info "Run nosdump; since: #{since}"
   nostr_events = fetch_events since
