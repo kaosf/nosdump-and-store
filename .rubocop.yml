@@ -1,0 +1,22 @@
+AllCops:
+  DisabledByDefault: false
+
+Metrics:
+  Enabled: false
+
+Layout/IndentationStyle:
+  IndentationWidth: 2
+  EnforcedStyle: spaces
+
+Style/Encoding:
+  Enabled: true
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/NumericPredicate:
+  Enabled: false
+Style/StringLiterals:
+  EnforcedStyle: double_quotes

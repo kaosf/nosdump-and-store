@@ -24,9 +24,11 @@ end
 
 AUTHORS =
   if is_development
+    # rubocop:disable
     %w[
       npub1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     ]
+    # rubocop:enable
   else
     ENV["NOSDUMP_AUTHORS"].split(",")
   end
@@ -46,13 +48,13 @@ LOGGER.info "relays: #{RELAYS}"
 require "digest"
 require "schnorr"
 
-def serialize event
+def serialize(event)
   JSON.generate([0, event["pubkey"], event["created_at"], event["kind"], event["tags"], event["content"]])
 end
 
 def validate_event(event)
   if Digest::SHA256.hexdigest(serialize(event)) != event["id"]
-    LOGGER.error "Invalid ID; id: #{event["id"]}"
+    LOGGER.error "Invalid ID; id: #{event['id']}"
     return false
   end
 
@@ -60,14 +62,14 @@ def validate_event(event)
   signature = [event["sig"]].pack("H*")
   message = [event["id"]].pack("H*")
   valid = Schnorr.valid_sig?(message, public_key, signature)
-  LOGGER.error "Invalid signature; sig: #{event["sig"]}, id: #{event["id"]}" unless valid
+  LOGGER.error "Invalid signature; sig: #{event['sig']}, id: #{event['id']}" unless valid
   valid
 end
 # This validation snippet ref. https://github.com/kaosf/nostr-backup/blob/a3afebf2b20805f3e2d5492e8c42bc76c2ecc01f/validation/run.rb
 
 require "open3"
 
-def build_nostr_event line
+def build_nostr_event(line)
   body = JSON.parse line
   raise StandardError, "Invalid event" unless validate_event body
 
@@ -77,13 +79,13 @@ def build_nostr_event line
   NostrEvent.new(id:, kind:, created_at:, body:)
 end
 
-def fetch_events since
+def fetch_events(since)
   nostr_events = []
   Open3.popen3("nosdump", "--since", since, "--authors", *AUTHORS, *RELAYS) do |stdin, stdout, _, _|
     stdin.close
     stdout.each_line do |line|
       nostr_events << build_nostr_event(line.chomp)
-    rescue => e
+    rescue StandardError => e
       LOGGER.error e
     end
   end
@@ -105,7 +107,7 @@ loop do
   rescue ActiveRecord::Error => e
     LOGGER.error e
     exit 1
-  rescue => e
+  rescue StandardError => e
     LOGGER.error e
   end
   LOGGER.info "Sleep #{SLEEP_SECONDS} seconds"
