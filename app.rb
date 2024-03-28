@@ -68,6 +68,7 @@ end
 # This validation snippet ref. https://github.com/kaosf/nostr-backup/blob/a3afebf2b20805f3e2d5492e8c42bc76c2ecc01f/validation/run.rb
 
 require "open3"
+require "timeout"
 
 def build_nostr_event(line)
   body = JSON.parse line
@@ -79,15 +80,24 @@ def build_nostr_event(line)
   NostrEvent.new(id:, kind:, created_at:, body:)
 end
 
+NOSDUMP_TIMEOUT_SECONDS = ENV.fetch("SINCE_MARGIN_SECONDS") { "900" }.to_i
+
 def fetch_events(since)
   nostr_events = []
-  Open3.popen3("nosdump", "--since", since, "--authors", *AUTHORS, *RELAYS) do |stdin, stdout, _, _|
-    stdin.close
-    stdout.each_line do |line|
-      nostr_events << build_nostr_event(line.chomp)
-    rescue StandardError => e
-      LOGGER.error e
+  begin
+    Timeout.timeout(NOSDUMP_TIMEOUT_SECONDS) do
+      Open3.popen3("nosdump", "--since", since, "--authors", *AUTHORS, *RELAYS) do |stdin, stdout, _, _|
+        stdin.close
+        stdout.each_line do |line|
+          nostr_events << build_nostr_event(line.chomp)
+        rescue StandardError => e
+          LOGGER.error e
+        end
+      end
     end
+  rescue Timeout::Error => e
+    LOGGER.error("fetch_events timeout; NOSDUMP_TIMEOUT_SECONDS: #{NOSDUMP_TIMEOUT_SECONDS} seconds\n#{e}")
+    nostr_events = []
   end
   nostr_events
 end
