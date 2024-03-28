@@ -80,7 +80,7 @@ def build_nostr_event(line)
   NostrEvent.new(id:, kind:, created_at:, body:)
 end
 
-NOSDUMP_TIMEOUT_SECONDS = ENV.fetch("SINCE_MARGIN_SECONDS") { "900" }.to_i
+NOSDUMP_TIMEOUT_SECONDS = ENV.fetch("NOSDUMP_TIMEOUT_SECONDS") { "900" }.to_i
 
 def fetch_events(since)
   nostr_events = []
