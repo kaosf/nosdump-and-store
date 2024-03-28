@@ -107,17 +107,15 @@ SLEEP_SECONDS = ENV.fetch("SLEEP_SECONDS") { "3600" }.to_i
 
 loop do
   LOGGER.info "Start"
+  LOGGER.info "Establish DB connection"
+  ActiveRecord::Base.establish_connection ENV["DATABASE_URL"]
   since = (Time.now.to_i - SINCE_MARGIN_SECONDS).to_s
   LOGGER.info "Run nosdump; since: #{since}"
   nostr_events = fetch_events since
   LOGGER.info "Done fetch; Number of events: #{nostr_events.size}"
   begin
-    LOGGER.info "Establish DB connection"
-    ActiveRecord::Base.establish_connection ENV["DATABASE_URL"]
     result = NostrEvent.import nostr_events, validate: true, validate_uniqueness: true
     LOGGER.info "Done store; num_inserts: #{result.num_inserts}"
-    LOGGER.info "Close DB connection"
-    ActiveRecord::Base.connection.close
   rescue ActiveRecord::Error => e
     LOGGER.error e
     exit 1
