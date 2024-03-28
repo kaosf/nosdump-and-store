@@ -7,7 +7,7 @@ end
 require "active_record"
 I18n.enforce_available_locales = false
 require "uri"
-ActiveRecord::Base.establish_connection ENV["DATABASE_URL"]
+# ActiveRecord::Base.establish_connection ENV["DATABASE_URL"]
 # This snippet ref. https://gist.github.com/kaosf/f4451b36e55012e6b7d1781e6a88df6a
 
 require "logger"
@@ -112,8 +112,12 @@ loop do
   nostr_events = fetch_events since
   LOGGER.info "Done fetch; Number of events: #{nostr_events.size}"
   begin
+    LOGGER.info "Establish DB connection"
+    ActiveRecord::Base.establish_connection ENV["DATABASE_URL"]
     result = NostrEvent.import nostr_events, validate: true, validate_uniqueness: true
     LOGGER.info "Done store; num_inserts: #{result.num_inserts}"
+    LOGGER.info "Close DB connection"
+    ActiveRecord::Base.connection.close
   rescue ActiveRecord::Error => e
     LOGGER.error e
     exit 1
