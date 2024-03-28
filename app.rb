@@ -97,7 +97,7 @@ SLEEP_SECONDS = ENV.fetch("SLEEP_SECONDS") { "3600" }.to_i
 
 loop do
   LOGGER.info "Start"
-  since = "#{(Time.now - SINCE_MARGIN_SECONDS).to_i}"
+  since = (Time.now - SINCE_MARGIN_SECONDS).to_s
   LOGGER.info "Run nosdump; since: #{since}"
   nostr_events = fetch_events since
   LOGGER.info "Done fetch; Number of events: #{nostr_events.size}"
