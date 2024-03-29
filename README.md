@@ -28,10 +28,8 @@ kaosf/nosdump-and-store:0.8.0
 
 ## TODO
 
-- Timeout for `nosdump` command
 - Research `nosdump` command behavior much more
 - Validation or verification feature in other gems
-- Fix development `AUTHORS` and `RELAYS`
 - Test code
 
 ## Development
