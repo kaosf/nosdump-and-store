@@ -1,0 +1,13 @@
+{
+  "editor.defaultFormatter": "Shopify.ruby-lsp",
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "cSpell.ignoreRegExpList": [
+    "activerecord", "nosdump", "nostr", "npub", "popen3", "pubkey", "schnorr", "sysopen",
+  ],
+}
