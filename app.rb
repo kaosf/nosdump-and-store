@@ -12,6 +12,16 @@ require "uri"
 
 require "logger"
 LOGGER = Logger.new $stdout
+LOGGER.level =
+  case ENV.fetch("RUBY_LOG_LEVEL", "info")
+  when "unknown" then Logger::UNKNOWN
+  when "fatal" then Logger::FATAL
+  when "error" then Logger::ERROR
+  when "warn" then Logger::WARN
+  when "info" then Logger::INFO
+  when "debug" then Logger::DEBUG
+  else Logger::INFO
+  end
 
 require "activerecord-import"
 
@@ -85,10 +95,15 @@ NOSDUMP_TIMEOUT_SECONDS = ENV.fetch("NOSDUMP_TIMEOUT_SECONDS") { "900" }.to_i
 def fetch_events(since)
   nostr_events = []
   begin
+    LOGGER.debug("Timeout seconds: #{NOSDUMP_TIMEOUT_SECONDS}")
     Timeout.timeout(NOSDUMP_TIMEOUT_SECONDS) do
+      LOGGER.debug("Before Open3.popen3")
       Open3.popen3("nosdump", "--since", since, "--authors", *AUTHORS, *RELAYS) do |stdin, stdout, _, _|
+        LOGGER.debug("In Open3.popen3 block; Before stdin.close")
         stdin.close
+        LOGGER.debug("In Open3.popen3 block; Before stdout.each_line")
         stdout.each_line do |line|
+          LOGGER.debug("In Open3.popen3 block; In stdout.each_line block; loop of line: #{line[0...50]}")
           nostr_events << build_nostr_event(line.chomp)
         rescue StandardError => e
           LOGGER.error e
