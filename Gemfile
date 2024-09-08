@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.2.2"
+ruby "3.3.5"
 
 gem "activerecord", "~> 7.0.7"
 gem "activerecord-import", "~> 1.4"
@@ -15,6 +15,6 @@ gem "ecdsa", "1.2.0"
 gem "ecdsa_ext", "0.5.0"
 
 group :development do
-  gem "rubocop", "1.60.2"
-  gem "ruby-lsp", "0.13.1"
+  gem "rubocop", "1.66.1"
+  gem "ruby-lsp", "0.17.17"
 end
