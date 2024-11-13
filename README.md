@@ -28,7 +28,6 @@ kaosf/nosdump-and-store:0.8.0
 
 ## TODO
 
-- Research `nosdump` command behavior much more
 - Validation or verification feature in other gems
 - Test code
 
