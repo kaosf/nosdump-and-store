@@ -78,7 +78,6 @@ end
 # This validation snippet ref. https://github.com/kaosf/nostr-backup/blob/a3afebf2b20805f3e2d5492e8c42bc76c2ecc01f/validation/run.rb
 
 require "open3"
-require "timeout"
 
 def build_nostr_event(line)
   body = JSON.parse line
@@ -94,25 +93,28 @@ NOSDUMP_TIMEOUT_SECONDS = ENV.fetch("NOSDUMP_TIMEOUT_SECONDS") { "900" }.to_i
 
 def fetch_events(since)
   nostr_events = []
-  begin
-    LOGGER.debug("Timeout seconds: #{NOSDUMP_TIMEOUT_SECONDS}")
-    Timeout.timeout(NOSDUMP_TIMEOUT_SECONDS) do
-      LOGGER.debug("Before Open3.popen3")
-      Open3.popen3("nosdump", "--since", since, "--authors", *AUTHORS, *RELAYS) do |stdin, stdout, _, _|
-        LOGGER.debug("In Open3.popen3 block; Before stdin.close")
-        stdin.close
-        LOGGER.debug("In Open3.popen3 block; Before stdout.each_line")
-        stdout.each_line do |line|
-          LOGGER.debug("In Open3.popen3 block; In stdout.each_line block; loop of line: #{line[0...50]}")
-          nostr_events << build_nostr_event(line.chomp)
-        rescue StandardError => e
-          LOGGER.error e
-        end
-      end
+  exitstatus = 0
+  LOGGER.debug("Timeout seconds: #{NOSDUMP_TIMEOUT_SECONDS}")
+  LOGGER.debug("Before Open3.popen3")
+  Open3.popen3("timeout", "#{NOSDUMP_TIMEOUT_SECONDS}", "nosdump", "--since", since, "--authors", *AUTHORS, *RELAYS) do |stdin, stdout, _, wait_thr|
+    LOGGER.debug("In Open3.popen3 block; Before stdin.close")
+    stdin.close
+    LOGGER.debug("In Open3.popen3 block; Before stdout.each_line")
+    stdout.each_line do |line|
+      LOGGER.debug("In Open3.popen3 block; In stdout.each_line block; loop of line: #{line[0...50]}")
+      nostr_events << build_nostr_event(line.chomp)
+    rescue StandardError => e
+      LOGGER.error e
     end
-  rescue Timeout::Error => e
-    LOGGER.error("fetch_events timeout; NOSDUMP_TIMEOUT_SECONDS: #{NOSDUMP_TIMEOUT_SECONDS} seconds\n#{e}")
-    nostr_events = []
+    exitstatus = wait_thr.value.exitstatus
+  end
+  if exitstatus == 124
+    LOGGER.error("fetch_events timeout; NOSDUMP_TIMEOUT_SECONDS: #{NOSDUMP_TIMEOUT_SECONDS} seconds")
+    return []
+  end
+  if exitstatus != 0
+    LOGGER.error("fetch_events something went wrong; exitstatus: #{exitstatus}")
+    return []
   end
   nostr_events
 end
