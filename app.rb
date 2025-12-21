@@ -1,4 +1,4 @@
-is_development = ENV.fetch("IS_DEVELOPMENT") { "" } == "1"
+is_development = ENV.fetch("IS_DEVELOPMENT", "") == "1"
 
 unless is_development
   $stdout = IO.new(IO.sysopen("/proc/1/fd/1", "w"), "w")
@@ -89,7 +89,7 @@ def build_nostr_event(line)
   NostrEvent.new(id:, kind:, created_at:, body:)
 end
 
-NOSDUMP_TIMEOUT_SECONDS = ENV.fetch("NOSDUMP_TIMEOUT_SECONDS") { "900" }.to_i
+NOSDUMP_TIMEOUT_SECONDS = ENV.fetch("NOSDUMP_TIMEOUT_SECONDS", "900").to_i
 
 def fetch_events(since)
   nostr_events = []
@@ -119,8 +119,8 @@ def fetch_events(since)
   nostr_events
 end
 
-SINCE_MARGIN_SECONDS = ENV.fetch("SINCE_MARGIN_SECONDS") { "2592000" }.to_i
-SLEEP_SECONDS = ENV.fetch("SLEEP_SECONDS") { "3600" }.to_i
+SINCE_MARGIN_SECONDS = ENV.fetch("SINCE_MARGIN_SECONDS", "2592000").to_i
+SLEEP_SECONDS = ENV.fetch("SLEEP_SECONDS", "3600").to_i
 
 loop do
   LOGGER.info "Start"
