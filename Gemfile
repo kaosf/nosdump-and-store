@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.3.5"
+ruby "3.4.7"
 
 gem "activerecord", "~> 7.2.1"
 gem "activerecord-import", "~> 1.4"
