@@ -96,7 +96,7 @@ def fetch_events(since)
   exitstatus = 0
   LOGGER.debug("Timeout seconds: #{NOSDUMP_TIMEOUT_SECONDS}")
   LOGGER.debug("Before Open3.popen3")
-  Open3.popen3("timeout", "#{NOSDUMP_TIMEOUT_SECONDS}", "nosdump", "--since", since, "--authors", *AUTHORS, *RELAYS) do |stdin, stdout, _, wait_thr|
+  Open3.popen3("timeout", "#{NOSDUMP_TIMEOUT_SECONDS}", "nosdump", "--since", since, "--authors", AUTHORS.join(","), *RELAYS) do |stdin, stdout, _, wait_thr|
     LOGGER.debug("In Open3.popen3 block; Before stdin.close")
     stdin.close
     LOGGER.debug("In Open3.popen3 block; Before stdout.each_line")
