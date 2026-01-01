@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS "nostr_events" (
 ```
 
 ```sh
-bundle
+bundle install
 
 # Edit app.rb
 
