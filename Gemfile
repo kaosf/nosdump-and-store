@@ -4,6 +4,7 @@ ruby "4.0.0"
 
 gem "activerecord", "~> 7.2.1"
 gem "activerecord-import", "~> 1.4"
+gem "ostruct", "~> 0.6.3"
 gem "pg", "~> 1.5"
 
 # gem "nostr", "0.4.0"
