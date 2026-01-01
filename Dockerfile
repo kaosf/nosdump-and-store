@@ -1,4 +1,4 @@
-FROM ruby:4.0.0-slim
+FROM ruby:4.0.0
 ENV DENO_INSTALL="/root/.deno"
 ENV PATH="$DENO_INSTALL/bin:$PATH"
 RUN curl -fsSL https://deno.land/install.sh | sh && deno install -g -A "jsr:@jiftechnify/nosdump@0.7.1"
