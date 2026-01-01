@@ -37,6 +37,7 @@ GEM
       concurrent-ruby (~> 1.0)
     json (2.18.0)
     language_server-protocol (3.17.0.5)
+    lint_roller (1.1.0)
     logger (1.7.0)
     minitest (6.0.0)
       prism (~> 1.5)
@@ -44,6 +45,7 @@ GEM
     parser (3.3.10.0)
       ast (~> 2.4.1)
       racc
+    pg (1.6.2)
     pg (1.6.2-x86_64-linux)
     prism (1.7.0)
     racc (1.8.1)
@@ -51,27 +53,26 @@ GEM
     rbs (3.9.5)
       logger
     regexp_parser (2.11.3)
-    rubocop (1.66.1)
+    rubocop (1.82.1)
       json (~> 2.3)
-      language_server-protocol (>= 3.17.0)
+      language_server-protocol (~> 3.17.0.2)
+      lint_roller (~> 1.1.0)
       parallel (~> 1.10)
       parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
-      regexp_parser (>= 2.4, < 3.0)
-      rubocop-ast (>= 1.32.2, < 2.0)
+      regexp_parser (>= 2.9.3, < 3.0)
+      rubocop-ast (>= 1.48.0, < 2.0)
       ruby-progressbar (~> 1.7)
-      unicode-display_width (>= 2.4.0, < 3.0)
+      unicode-display_width (>= 2.4.0, < 4.0)
     rubocop-ast (1.48.0)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
-    ruby-lsp (0.17.17)
+    ruby-lsp (0.26.4)
       language_server-protocol (~> 3.17.0)
-      prism (~> 1.0)
-      rbs (>= 3, < 4)
-      sorbet-runtime (>= 0.5.10782)
+      prism (>= 1.2, < 2.0)
+      rbs (>= 3, < 5)
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
-    sorbet-runtime (0.6.12865)
     timeout (0.6.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -87,11 +88,11 @@ DEPENDENCIES
   ecdsa (= 1.2.0)
   ecdsa_ext (= 0.5.0)
   pg (~> 1.5)
-  rubocop (= 1.66.1)
-  ruby-lsp (= 0.17.17)
+  rubocop (= 1.82.1)
+  ruby-lsp (= 0.26.4)
 
 RUBY VERSION
-   ruby 3.4.7p58
+  ruby 4.0.0
 
 BUNDLED WITH
-   2.6.9
+  4.0.3
