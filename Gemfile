@@ -1,21 +1,23 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-ruby "4.0.0"
+source 'https://rubygems.org'
 
-gem "activerecord", "~> 7.2.1"
-gem "activerecord-import", "~> 1.4"
-gem "ostruct", "~> 0.6.3"
-gem "pg", "~> 1.5"
+ruby '4.0.0'
+
+gem 'activerecord', '~> 7.2.1'
+gem 'activerecord-import', '~> 1.4'
+gem 'ostruct', '~> 0.6.3'
+gem 'pg', '~> 1.5'
 
 # gem "nostr", "0.4.0"
 # gem "nostr_ruby", "0.2.0"
 
-gem "bip-schnorr", "0.6.0"
+gem 'bip-schnorr', '0.6.0'
 # Keep dependencies versions
-gem "ecdsa", "1.2.0"
-gem "ecdsa_ext", "0.5.0"
+gem 'ecdsa', '1.2.0'
+gem 'ecdsa_ext', '0.5.0'
 
 group :development do
-  gem "rubocop", "1.82.1"
-  gem "ruby-lsp", "0.26.4"
+  gem 'rubocop', '1.82.1'
+  gem 'ruby-lsp', '0.26.4'
 end
