@@ -8,6 +8,6 @@
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
   "cSpell.ignoreRegExpList": [
-    "activerecord", "nosdump", "nostr", "npub", "popen3", "pubkey", "schnorr", "sysopen",
+    "activerecord", "exitstatus", "nosdump", "nostr", "npub", "popen3", "pubkey", "schnorr", "sysopen",
   ],
 }
